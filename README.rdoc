@@ -1,1 +1,1 @@
-http://guarded-wildwood-1041.herokuapp.com/
+http://guarded-wildwood-1041.herokuapp.com/breweries
