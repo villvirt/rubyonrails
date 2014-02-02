@@ -23,7 +23,7 @@ class BreweriesController < ApplicationController
 
   # POST /breweries
   # POST /breweries.json
-  def create
+def create
     @brewery = Brewery.new(brewery_params)
 
     respond_to do |format|
@@ -36,7 +36,6 @@ class BreweriesController < ApplicationController
       end
     end
   end
-
   # PATCH/PUT /breweries/1
   # PATCH/PUT /breweries/1.json
   def update
