@@ -1,12 +1,13 @@
 class BreweriesController < ApplicationController
-  before_action :set_brewery, only: [ :show, :edit, :update, :destroy]
-  before_action :authenticate, only: [ :destroy]
+  before_action :set_brewery, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate, :only => [:destroy]
+
   # GET /breweries
   # GET /breweries.json
   def index
     @breweries = Brewery.all
-    render :index #renderöi hakemistossa view/breweries olevan näymätemplaten index.html.erb
   end
+
   # GET /breweries/1
   # GET /breweries/1.json
   def show
@@ -23,7 +24,7 @@ class BreweriesController < ApplicationController
 
   # POST /breweries
   # POST /breweries.json
-def create
+  def create
     @brewery = Brewery.new(brewery_params)
 
     respond_to do |format|
@@ -36,6 +37,7 @@ def create
       end
     end
   end
+
   # PATCH/PUT /breweries/1
   # PATCH/PUT /breweries/1.json
   def update
@@ -61,21 +63,21 @@ def create
   end
 
   private
-  
-  def authenticate
-        admin_accounts = {"admin" => "secret", "pekka" => "beer","arto" => "foobar","matti" => "ittam", }
-	authenticate_or_request_with_http_basic do |username, password|
-	   admin_accounts[username]
-	end
-  end  
-
-  # Use callbacks to share common setup or constraints between actions.
+    # Use callbacks to share common setup or constraints between actions.
     def set_brewery
       @brewery = Brewery.find(params[:id])
     end
-  
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def brewery_params
       params.require(:brewery).permit(:name, :year)
+    end
+
+    def authenticate
+      admin_accounts = { "admin" => "secret", "pekka" => "beer", "arto" => "foobar", "matti" => "ittam"}
+
+      authenticate_or_request_with_http_basic do |username, password|
+        admin_accounts[username] == password
+      end
     end
 end

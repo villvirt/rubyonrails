@@ -1,8 +1,0 @@
-class Beer < ActiveRecord::Base
-	belongs_to :brewery
-	has_many :ratings
-
-	def average_rating
-	  avg = Rating.where beer_id: self.id
-          puts avg.first	end 
-end
