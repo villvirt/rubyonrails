@@ -7,9 +7,22 @@ class RatingsController < ApplicationController
 	@rating = Rating.new
         @beers = Beer.all
     end
-    def create
-	Rating.create params.require(:rating).permit(:score,:beer_id)
-    	redirect_to ratings_path	
+    def create	
+	@rating = Rating.create params.require(:rating).permit(:score,:beer_id)
+    	
+	if @rating.save
+		#talletetaan tehdyn reittauksen sessioon
+		current_user.ratings << rating
+		redirect_to current_user
+	else
+		@beers = Beer.all
+		render :new
+	end	
+    end
+    def destroy
+        rating = Rating.find(params[:id])
+	rating.delete
+	redirect_to :back
     end
  
 end
